@@ -7,7 +7,7 @@ import platform
 import subprocess
 import os
 from fibre.utils import Event
-from odrive.enums import errors
+from odrive.enums import *
 
 try:
     if platform.system() == 'Windows':

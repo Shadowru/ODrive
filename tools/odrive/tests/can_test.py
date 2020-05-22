@@ -149,12 +149,12 @@ class TestSimpleCAN():
 
         my_cmd('estop')
         fence()
-        test_assert_eq(axis.error, errors.axis.ERROR_ESTOP_REQUESTED)
+        test_assert_eq(axis.error, AXIS_ERROR_ESTOP_REQUESTED)
 
         my_cmd('set_requested_state', requested_state=42) # illegal state - should assert axis error
         fence()
         test_assert_eq(axis.current_state, 1) # idle
-        test_assert_eq(axis.error, errors.axis.ERROR_ESTOP_REQUESTED | errors.axis.ERROR_INVALID_STATE)
+        test_assert_eq(axis.error, AXIS_ERROR_ESTOP_REQUESTED | AXIS_ERROR_INVALID_STATE)
 
         my_cmd('clear_errors')
         fence()
@@ -217,7 +217,7 @@ class TestSimpleCAN():
         heartbeats = asyncio.run(get_all(record_messages(canbus.handle, node_id, extended_id, 'heartbeat', timeout = 1.0)))
         test_assert_eq(len(heartbeats), 5.8 / 0.1, accuracy=0.05)
         test_assert_eq([msg['error'] for msg in heartbeats[0:35]], [0] * 35) # before watchdog expiry
-        test_assert_eq([msg['error'] for msg in heartbeats[-10:]], [errors.axis.ERROR_WATCHDOG_TIMER_EXPIRED] * 10) # after watchdog expiry
+        test_assert_eq([msg['error'] for msg in heartbeats[-10:]], [AXIS_ERROR_WATCHDOG_TIMER_EXPIRED] * 10) # after watchdog expiry
         test_assert_eq([msg['current_state'] for msg in heartbeats], [1] * len(heartbeats))
 
         logger.debug('testing reboot...')
