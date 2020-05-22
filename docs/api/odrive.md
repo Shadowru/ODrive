@@ -10,7 +10,7 @@
 
 
 
-<big><code>vbus_voltage: 
+<big><code>vbus_voltage - 
 **<span title="C type: float, Python type: float">float32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
@@ -21,7 +21,7 @@ Voltage on the DC bus as measured by the ODrive.
 
 </ul>
 
-<big><code>ibus: 
+<big><code>ibus - 
 **<span title="C type: float, Python type: float">float32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
@@ -40,114 +40,114 @@ The motor currents are measured, the brake resistor current is calculated based 
 `config.brake_resistance`.
 </ul>
 
-<big><code>serial_number: 
+<big><code>serial_number - 
 **<span title="C type: uint64_t, Python type: int">uint64</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>hw_version_major: 
+<big><code>hw_version_major - 
 **<span title="C type: uint8_t, Python type: int">uint8</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>hw_version_minor: 
+<big><code>hw_version_minor - 
 **<span title="C type: uint8_t, Python type: int">uint8</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>hw_version_variant: 
+<big><code>hw_version_variant - 
 **<span title="C type: uint8_t, Python type: int">uint8</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>fw_version_major: 
+<big><code>fw_version_major - 
 **<span title="C type: uint8_t, Python type: int">uint8</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>fw_version_minor: 
+<big><code>fw_version_minor - 
 **<span title="C type: uint8_t, Python type: int">uint8</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>fw_version_revision: 
+<big><code>fw_version_revision - 
 **<span title="C type: uint8_t, Python type: int">uint8</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>fw_version_unreleased: 
+<big><code>fw_version_unreleased - 
 **<span title="C type: uint8_t, Python type: int">uint8</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 0 for official releases, 1 otherwise</ul>
 
-<big><code>brake_resistor_armed: 
+<big><code>brake_resistor_armed - 
 **<span title="C type: bool, Python type: bool">bool</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>brake_resistor_saturated: 
+<big><code>brake_resistor_saturated - 
 **<span title="C type: bool, Python type: bool">bool</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>system_stats: **[<span >SystemStats</span>](odrive.systemstats.md)**</code></big>
+<big><code>system_stats - **[<span >SystemStats</span>](odrive.systemstats.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>config: **[<span >Config</span>](odrive.config.md)**</code></big>
+<big><code>config - **[<span >Config</span>](odrive.config.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>user_config_loaded: 
+<big><code>user_config_loaded - 
 **<span title="C type: bool, Python type: bool">bool</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>axis0: **[<span >Axis</span>](axis.md)**</code></big>
+<big><code>axis0 - **[<span >Axis</span>](axis.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>axis1: **[<span >Axis</span>](axis.md)**</code></big>
+<big><code>axis1 - **[<span >Axis</span>](axis.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>can: **[<span >Can</span>](odrive.can.md)**</code></big>
+<big><code>can - **[<span >Can</span>](odrive.can.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>test_property: 
+<big><code>test_property - 
 **<span title="C type: uint32_t, Python type: int">uint32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 
 <ul>

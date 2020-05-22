@@ -19,9 +19,9 @@
 [% if interface.attributes %]
 [% for attr in interface.attributes.values() %]
 [%- if attr.type.purename == 'fibre.Property' %]
-<big><code>[[attr.name]]: [[value_type_ref(attr.type.value_type)]]</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_([[attr.type.mode]] property)_</span>
+<big><code>[[attr.name]] - [[value_type_ref(attr.type.value_type)]]</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_([[attr.type.mode]] property)_</span>
 [%- else %]
-<big><code>[[attr.name]]: [[interface_ref(attr.type)]]</code></big>
+<big><code>[[attr.name]] - [[interface_ref(attr.type)]]</code></big>
 [%- endif %]
 [%- if attr.status == 'experimental' %]
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="border: 1px solid; border-radius: 3px; padding: 1px 10px; color: #c35400;" title="This feature is still experimental. It may be buggy or change later. Use with caution.">Experimental</span>

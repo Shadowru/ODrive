@@ -10,14 +10,14 @@
 
 
 
-<big><code>enable_uart: 
+<big><code>enable_uart - 
 **<span title="C type: bool, Python type: bool">bool</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 
 <ul>
 
 TODO: changing this currently requires a reboot - fix this</ul>
 
-<big><code>uart_baudrate: 
+<big><code>uart_baudrate - 
 **<span title="C type: uint32_t, Python type: int">uint32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 
 <ul>
@@ -46,28 +46,28 @@ For more information refer to Section 30.3.4 and Table 142 (the column with f_PC
 [STM datasheet](https://www.st.com/content/ccc/resource/technical/document/reference_manual/3d/6d/5a/66/b4/99/40/d4/DM00031020.pdf/files/DM00031020.pdf/jcr:content/translations/en.DM00031020.pdf).
 </ul>
 
-<big><code>enable_i2c_instead_of_can: 
+<big><code>enable_i2c_instead_of_can - 
 **<span title="C type: bool, Python type: bool">bool</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 
 <ul>
 
 Changing this requires a reboot.</ul>
 
-<big><code>enable_ascii_protocol_on_usb: 
+<big><code>enable_ascii_protocol_on_usb - 
 **<span title="C type: bool, Python type: bool">bool</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>max_regen_current: 
+<big><code>max_regen_current - 
 **<span title="C type: float, Python type: float">float32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>brake_resistance: 
+<big><code>brake_resistance - 
 **<span title="C type: float, Python type: float">float32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 
 <ul>
@@ -80,7 +80,7 @@ Value of the brake resistor connected to the ODrive.
 
 Set to 0 to disable.</ul>
 
-<big><code>dc_bus_undervoltage_trip_level: 
+<big><code>dc_bus_undervoltage_trip_level - 
 **<span title="C type: float, Python type: float">float32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 
 <ul>
@@ -91,7 +91,7 @@ Minimum voltage below which the motor stops operating.
 
 </ul>
 
-<big><code>dc_bus_overvoltage_trip_level: 
+<big><code>dc_bus_overvoltage_trip_level - 
 **<span title="C type: float, Python type: float">float32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 
 <ul>
@@ -107,7 +107,7 @@ the brake power if the brake resistor is disabled.
 The default is 26V for the 24V board version and 52V for the 48V board version.
 </ul>
 
-<big><code>enable_dc_bus_overvoltage_ramp: 
+<big><code>enable_dc_bus_overvoltage_ramp - 
 **<span title="C type: bool, Python type: bool">bool</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="border: 1px solid; border-radius: 3px; padding: 1px 10px; color: #c35400;" title="This feature is still experimental. It may be buggy or change later. Use with caution.">Experimental</span>
 
@@ -129,7 +129,7 @@ Remarks:
  - This feature is disabled if `brake_resistance` is non-positive.
 </ul>
 
-<big><code>dc_bus_overvoltage_ramp_start: 
+<big><code>dc_bus_overvoltage_ramp_start - 
 **<span title="C type: float, Python type: float">float32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="border: 1px solid; border-radius: 3px; padding: 1px 10px; color: #c35400;" title="This feature is still experimental. It may be buggy or change later. Use with caution.">Experimental</span>
 
@@ -139,7 +139,7 @@ See `enable_dc_bus_overvoltage_ramp`.
 
 Do not set this lower than your usual `vbus_voltage`, unless you like fried brake resistors.</ul>
 
-<big><code>dc_bus_overvoltage_ramp_end: 
+<big><code>dc_bus_overvoltage_ramp_end - 
 **<span title="C type: float, Python type: float">float32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="border: 1px solid; border-radius: 3px; padding: 1px 10px; color: #c35400;" title="This feature is still experimental. It may be buggy or change later. Use with caution.">Experimental</span>
 
@@ -149,7 +149,7 @@ See `enable_dc_bus_overvoltage_ramp`.
 
 Must be larger than `dc_bus_overvoltage_ramp_start`, otherwise the ramp feature is disabled.</ul>
 
-<big><code>dc_max_positive_current: 
+<big><code>dc_max_positive_current - 
 **<span title="C type: float, Python type: float">float32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 
 <ul>
@@ -160,7 +160,7 @@ Max current the power supply can source.
 
 </ul>
 
-<big><code>dc_max_negative_current: 
+<big><code>dc_max_negative_current - 
 **<span title="C type: float, Python type: float">float32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 
 <ul>
@@ -173,37 +173,37 @@ Max current the power supply can sink.
 
 You most likely want a non-positive value here. Set to -INFINITY to disable.</ul>
 
-<big><code>gpio1_pwm_mapping: **[<span >Endpoint</span>](endpoint.md)**</code></big>
+<big><code>gpio1_pwm_mapping - **[<span >Endpoint</span>](endpoint.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>gpio2_pwm_mapping: **[<span >Endpoint</span>](endpoint.md)**</code></big>
+<big><code>gpio2_pwm_mapping - **[<span >Endpoint</span>](endpoint.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>gpio3_pwm_mapping: **[<span >Endpoint</span>](endpoint.md)**</code></big>
+<big><code>gpio3_pwm_mapping - **[<span >Endpoint</span>](endpoint.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>gpio4_pwm_mapping: **[<span >Endpoint</span>](endpoint.md)**</code></big>
+<big><code>gpio4_pwm_mapping - **[<span >Endpoint</span>](endpoint.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>gpio3_analog_mapping: **[<span >Endpoint</span>](endpoint.md)**</code></big>
+<big><code>gpio3_analog_mapping - **[<span >Endpoint</span>](endpoint.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>gpio4_analog_mapping: **[<span >Endpoint</span>](endpoint.md)**</code></big>
+<big><code>gpio4_analog_mapping - **[<span >Endpoint</span>](endpoint.md)**</code></big>
 
 <ul>
 

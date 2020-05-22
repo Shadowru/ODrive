@@ -10,7 +10,7 @@
 
 
 
-<big><code>config: **[<span >Config</span>](trapezoidaltrajectory.config.md)**</code></big>
+<big><code>config - **[<span >Config</span>](trapezoidaltrajectory.config.md)**</code></big>
 
 <ul>
 
