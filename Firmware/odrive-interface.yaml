@@ -6,9 +6,26 @@ summary:  ODrive Interface Definitions
 interfaces:
   Odrive:
     c_is_class: True
+    brief: Toplevel interface of your ODrive.
+    doc: |
+      The odrv0, odrv1, ... objects that appear in odrivetool implement this
+      toplevel interface.
     attributes:
-      vbus_voltage: readonly float32
-      ibus: readonly float32
+      vbus_voltage:
+        type: readonly float32
+        unit: V
+        brief: Voltage on the DC bus as measured by the ODrive.
+      ibus:
+        type: readonly float32
+        unit: A
+        brief: Current on the DC bus as calculated by the ODrive.
+        doc: |
+          A positive value means that the ODrive is consuming power from the power supply,
+          a negative value means that the ODrive is sourcing power to the power supply.
+
+          This value is equal to the sum of the motor currents and the brake resistor currents.
+          The motor currents are measured, the brake resistor current is calculated based on
+          `config.brake_resistance`.
       serial_number: readonly uint64
       hw_version_major: readonly uint8
       hw_version_minor: readonly uint8
@@ -63,7 +80,8 @@ interfaces:
             doc: 'TODO: changing this currently requires a reboot - fix this'
           uart_baudrate:
             type: uint32
-            doc: "Defines the baudrate used on the UART interface.
+            doc: |
+              Defines the baudrate used on the UART interface.
               Some baudrates will have a small timing error due to hardware limitations.
 
               Here's an (incomplete) list of baudrates for ODrive v3.x:
@@ -83,62 +101,71 @@ interfaces:
                 1.792 MBps  | 1.826 MBps    | 1.9
                 1.8432 MBps | 1.826 MBps    | 0.93
 
-              For more information refer to Section 30.3.4 and Table 142 (the column with f_PCLK = 42 MHz) in the STM datasheet:
-              https://www.st.com/content/ccc/resource/technical/document/reference_manual/3d/6d/5a/66/b4/99/40/d4/DM00031020.pdf/files/DM00031020.pdf/jcr:content/translations/en.DM00031020.pdf"
+              For more information refer to Section 30.3.4 and Table 142 (the column with f_PCLK = 42 MHz) in the
+              [STM datasheet](https://www.st.com/content/ccc/resource/technical/document/reference_manual/3d/6d/5a/66/b4/99/40/d4/DM00031020.pdf/files/DM00031020.pdf/jcr:content/translations/en.DM00031020.pdf).
           enable_i2c_instead_of_can:
             type: bool
-            doc: 'Changing this requires a reboot'
+            doc: Changing this requires a reboot.
           enable_ascii_protocol_on_usb: bool
           max_regen_current: float32
           brake_resistance:
             type: float32
             unit: Ohm
-            doc: Value of the brake resistor connected to the ODrive. Set to 0 to disable.
+            brief: Value of the brake resistor connected to the ODrive.
+            doc: Set to 0 to disable.
 
           dc_bus_undervoltage_trip_level:
             type: float32
             unit: V
-            doc: Minimum voltage below which the motor stops operating.
+            brief: Minimum voltage below which the motor stops operating.
           dc_bus_overvoltage_trip_level:
             type: float32
             unit: V
-            doc: Maximum voltage above which the motor stops operating.
+            brief: Maximum voltage above which the motor stops operating.
+            doc: |
               This protects against cases in which the power supply fails to dissipate
               the brake power if the brake resistor is disabled.
               The default is 26V for the 24V board version and 52V for the 48V board version.
 
           enable_dc_bus_overvoltage_ramp:
             type: bool
-            doc: 'If enabled, if the measured DC voltage exceeds `dc_bus_overvoltage_ramp_start`,
+            status: experimental
+            brief: Enables the DC bus overvoltage ramp feature.
+            doc: |
+              If enabled, if the measured DC voltage exceeds `dc_bus_overvoltage_ramp_start`,
               the ODrive will sink more power than usual into the the brake resistor
               in an attempt to bring the voltage down again.
               
               The brake duty cycle is increased by the following amount:
-               vbus_voltage == dc_bus_overvoltage_ramp_start  =>  brake_duty_cycle += 0%
-               vbus_voltage == dc_bus_overvoltage_ramp_end  =>  brake_duty_cycle += 100%
+
+               * `vbus_voltage` == `dc_bus_overvoltage_ramp_start`  =>  brake_duty_cycle += 0%
+               * `vbus_voltage` == `dc_bus_overvoltage_ramp_end`  =>  brake_duty_cycle += 100%
               
               Remarks:
                - This feature is active even when all motors are disarmed.
-               - This feature is disabled if `brake_resistance` is non-positive.'
+               - This feature is disabled if `brake_resistance` is non-positive.
           dc_bus_overvoltage_ramp_start:
             type: float32
-            doc: See `enable_dc_bus_overvoltage_ramp`.
-              Do not set this lower than your usual vbus_voltage,
+            status: experimental
+            brief: See `enable_dc_bus_overvoltage_ramp`.
+            doc: Do not set this lower than your usual `vbus_voltage`,
               unless you like fried brake resistors.
           dc_bus_overvoltage_ramp_end:
             type: float32
-            doc: See `enable_dc_bus_overvoltage_ramp`.
-              Must be larger than `dc_bus_overvoltage_ramp_start`,
+            status: experimental
+            brief: See `enable_dc_bus_overvoltage_ramp`.
+            doc: Must be larger than `dc_bus_overvoltage_ramp_start`,
               otherwise the ramp feature is disabled.
 
           dc_max_positive_current:
             type: float32
             unit: A
-            doc: Max current the power supply can source.
+            brief: Max current the power supply can source.
           dc_max_negative_current:
             type: float32
             unit: A
-            doc: Max current the power supply can sink. You most likely want a non-positive value here. Set to -INFINITY to disable.
+            brief: Max current the power supply can sink.
+            doc: You most likely want a non-positive value here. Set to -INFINITY to disable.
 
           gpio1_pwm_mapping: {type: Endpoint, c_name: 'pwm_mappings[0]'} # TODO: disable for ODrive v3.2 and older
           gpio2_pwm_mapping: {type: Endpoint, c_name: 'pwm_mappings[1]'} # TODO: disable for ODrive v3.2 and older

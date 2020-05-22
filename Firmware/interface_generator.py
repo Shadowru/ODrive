@@ -16,6 +16,8 @@ definitions:
     properties:
       c_is_class: {type: boolean}
       c_name: {type: string}
+      brief: {type: string}
+      doc: {type: string}
       functions:
         type: object
         additionalProperties: {"$ref": "#/definitions/function"}
@@ -64,6 +66,7 @@ definitions:
         properties:
           in: {type: object}
           out: {type: object}
+          brief: {type: string}
           doc: {type: string}
           __line__: {type: object}
           __column__: {type: object}
@@ -132,17 +135,17 @@ def to_snake_case(s): return '_'.join(get_words(s)).lower()
 def to_kebab_case(s): return '-'.join(get_words(s)).lower()
 
 value_types = {
-    'bool': {'builtin': True, 'fullname': 'bool', 'name': 'bool', 'c_name': 'bool'},
-    'float32': {'builtin': True, 'fullname': 'float32', 'name': 'float32', 'c_name': 'float'},
-    'uint8': {'builtin': True, 'fullname': 'uint8', 'name': 'uint8', 'c_name': 'uint8_t'},
-    'uint16': {'builtin': True, 'fullname': 'uint16', 'name': 'uint16', 'c_name': 'uint16_t'},
-    'uint32': {'builtin': True, 'fullname': 'uint32', 'name': 'uint32', 'c_name': 'uint32_t'},
-    'uint64': {'builtin': True, 'fullname': 'uint64', 'name': 'uint64', 'c_name': 'uint64_t'},
-    'int8': {'builtin': True, 'fullname': 'int8', 'name': 'int8', 'c_name': 'int8_t'},
-    'int16': {'builtin': True, 'fullname': 'int16', 'name': 'int16', 'c_name': 'int16_t'},
-    'int32': {'builtin': True, 'fullname': 'int32', 'name': 'int32', 'c_name': 'int32_t'},
-    'int64': {'builtin': True, 'fullname': 'int64', 'name': 'int64', 'c_name': 'int64_t'},
-    'endpoint_ref': {'builtin': True, 'fullname': 'endpoint_ref', 'name': 'endpoint_ref', 'c_name': 'endpoint_ref_t'},
+    'bool': {'builtin': True, 'fullname': 'bool', 'name': 'bool', 'c_name': 'bool', 'py_type': 'bool'},
+    'float32': {'builtin': True, 'fullname': 'float32', 'name': 'float32', 'c_name': 'float', 'py_type': 'float'},
+    'uint8': {'builtin': True, 'fullname': 'uint8', 'name': 'uint8', 'c_name': 'uint8_t', 'py_type': 'int'},
+    'uint16': {'builtin': True, 'fullname': 'uint16', 'name': 'uint16', 'c_name': 'uint16_t', 'py_type': 'int'},
+    'uint32': {'builtin': True, 'fullname': 'uint32', 'name': 'uint32', 'c_name': 'uint32_t', 'py_type': 'int'},
+    'uint64': {'builtin': True, 'fullname': 'uint64', 'name': 'uint64', 'c_name': 'uint64_t', 'py_type': 'int'},
+    'int8': {'builtin': True, 'fullname': 'int8', 'name': 'int8', 'c_name': 'int8_t', 'py_type': 'int'},
+    'int16': {'builtin': True, 'fullname': 'int16', 'name': 'int16', 'c_name': 'int16_t', 'py_type': 'int'},
+    'int32': {'builtin': True, 'fullname': 'int32', 'name': 'int32', 'c_name': 'int32_t', 'py_type': 'int'},
+    'int64': {'builtin': True, 'fullname': 'int64', 'name': 'int64', 'c_name': 'int64_t', 'py_type': 'int'},
+    'endpoint_ref': {'builtin': True, 'fullname': 'endpoint_ref', 'name': 'endpoint_ref', 'c_name': 'endpoint_ref_t', 'py_type': '[not implemented]'},
 }
 
 enums = {}
@@ -477,9 +480,14 @@ parser.add_argument("-d", "--definitions", type=argparse.FileType('r'), nargs='+
                     help="the YAML interface definition file(s) used to generate the code")
 parser.add_argument("-t", "--template", type=argparse.FileType('r'),
                     help="the code template")
-parser.add_argument("-o", "--output", type=argparse.FileType('w'), default='-',
+group = parser.add_mutually_exclusive_group(required=True)
+group.add_argument("-o", "--output", type=argparse.FileType('w'),
                     help="path of the generated output")
+group.add_argument("--outputs", type=str,
+                    help="path pattern for the generated outputs. One output is generated for each interface. Use # as placeholder for the interface name.")
 parser.add_argument("--generate-endpoints", type=str, nargs='?',
+                    help="if specified, an endpoint table will be generated and passed to the template for the specified interface")
+parser.add_argument("--one-file-per-type", type=bool, nargs='?',
                     help="if specified, an endpoint table will be generated and passed to the template for the specified interface")
 args = parser.parse_args()
 
@@ -490,7 +498,6 @@ if args.version:
 
 definition_files = args.definitions
 template_file = args.template
-output_file = args.output
 
 
 # Load definition files
@@ -586,12 +593,25 @@ env.filters['to_c_string'] = lambda x: '\n'.join(('"' + line.replace('"', '\\"')
 
 template = env.from_string(template_file.read())
 
-output = template.render(
-    interfaces = interfaces,
-    value_types = value_types,
-    toplevel_interfaces = toplevel_interfaces,
-    endpoints = endpoints,
-    embedded_endpoint_definitions = embedded_endpoint_definitions
-)
+if not args.output is None:
+    output = template.render(
+        interfaces = interfaces,
+        value_types = value_types,
+        toplevel_interfaces = toplevel_interfaces,
+        endpoints = endpoints,
+        embedded_endpoint_definitions = embedded_endpoint_definitions
+    )
+    args.output.write(output)
+else:
+    assert('#' in args.outputs)
 
-output_file.write(output)
+    for k, intf in interfaces.items():
+        if split_name(k)[0] == 'fibre':
+            continue # TODO: remove special case
+        output = template.render(
+            interfaces = interfaces,
+            value_types = value_types,
+            interface = intf
+        )
+        with open(args.outputs.replace('#', k.lower()), 'w') as output_file:
+            output_file.write(output)
