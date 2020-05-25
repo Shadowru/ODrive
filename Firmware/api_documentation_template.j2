@@ -1,16 +1,22 @@
 
 
-[% macro interface_ref(type) -%]
+[%- macro interface_ref(type) -%]
 **[['[']]<span [% if type.brief %]title="[[type.brief]]"[% endif %]>[[type.name]]</span>[[']']]([[type.fullname | lower]].md)**
 [%- endmacro %]
 
-[% macro value_type_ref(type) -%]
+[%- macro value_type_ref(type) -%]
 [%- if type.builtin %]
 **<span title="C type: [[type.c_name]], Python type: [[type.py_type]]">[[type.name]]</span>**
 [%- else %]
 **[['[']]<span [% if type.brief %]title="[[type.brief]]"[% endif %]>[[type.name]]</span>[[']']]([[type.fullname | lower]].md)**
 [%- endif %]
 [%- endmacro %]
+
+[% macro attr_ref(token, attr) -%]
+**[['[']]<span [% if attr.brief %]title="[[attr.brief]]"[% endif %]>[[token]]</span>[[']']]([[attr.parent.fullname | lower]].md#[[attr.name]])**
+[%- endmacro %]
+
+[%- macro doc_tokenize(text) %][[ text | tokenize(interface, interface_ref, value_type_ref, attr_ref) ]][% endmacro %]
 
 # [[interface.fullname]]
 
@@ -19,9 +25,9 @@
 [% if interface.attributes %]
 [% for attr in interface.attributes.values() %]
 [%- if attr.type.purename == 'fibre.Property' %]
-<big><code>[[attr.name]] - [[value_type_ref(attr.type.value_type)]]</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_([[attr.type.mode]] property)_</span>
+<a name="[[attr.name]]"></a><big><code>[[attr.name]] - [[value_type_ref(attr.type.value_type)]]</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_([[attr.type.mode]] property)_</span>
 [%- else %]
-<big><code>[[attr.name]] - [[interface_ref(attr.type)]]</code></big>
+<a name="[[attr.name]]"></a><big><code>[[attr.name]] - [[interface_ref(attr.type)]]</code></big>
 [%- endif %]
 [%- if attr.status == 'experimental' %]
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="border: 1px solid; border-radius: 3px; padding: 1px 10px; color: #c35400;" title="This feature is still experimental. It may be buggy or change later. Use with caution.">Experimental</span>
@@ -29,13 +35,13 @@
 
 <ul>
 [% if attr.doc or attr.brief %]
-[[attr.brief]][% if attr.brief and attr.doc %]
+[[doc_tokenize(attr.brief)]][% if attr.brief and attr.doc %]
 
 [% endif %][%- if attr.unit %]
 
 **Unit:** [[attr.unit]]
 
-[% endif %][[attr.doc]]
+[% endif %][[doc_tokenize(attr.doc)]]
 [%- else %]
 _No description_
 [%- endif %]</ul>
@@ -52,9 +58,9 @@ This interface has no attributes.
 
 <ul>
 [% if function.doc or function.brief %]
-[[function.brief]][% if function.brief and function.doc %]
+[[doc_tokenize(function.brief)]][% if function.brief and function.doc %]
 
-[% endif %][[function.doc]]
+[% endif %][[doc_tokenize(function.doc)]]
 [%- else %]
 _No description_
 [%- endif %]</ul>

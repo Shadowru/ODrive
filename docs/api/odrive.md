@@ -2,15 +2,13 @@
 
 
 
-
-
 # Odrive
 
 ## Attributes
 
 
 
-<big><code>vbus_voltage - 
+<a name="vbus_voltage"></a><big><code>vbus_voltage - 
 **<span title="C type: float, Python type: float">float32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
@@ -21,7 +19,7 @@ Voltage on the DC bus as measured by the ODrive.
 
 </ul>
 
-<big><code>ibus - 
+<a name="ibus"></a><big><code>ibus - 
 **<span title="C type: float, Python type: float">float32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
@@ -37,117 +35,117 @@ a negative value means that the ODrive is sourcing power to the power supply.
 
 This value is equal to the sum of the motor currents and the brake resistor currents.
 The motor currents are measured, the brake resistor current is calculated based on
-`config.brake_resistance`.
+**[<span title="Value of the brake resistor connected to the ODrive.">config.brake_resistance</span>](odrive.config.md#brake_resistance)**.
 </ul>
 
-<big><code>serial_number - 
+<a name="serial_number"></a><big><code>serial_number - 
 **<span title="C type: uint64_t, Python type: int">uint64</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>hw_version_major - 
+<a name="hw_version_major"></a><big><code>hw_version_major - 
 **<span title="C type: uint8_t, Python type: int">uint8</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>hw_version_minor - 
+<a name="hw_version_minor"></a><big><code>hw_version_minor - 
 **<span title="C type: uint8_t, Python type: int">uint8</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>hw_version_variant - 
+<a name="hw_version_variant"></a><big><code>hw_version_variant - 
 **<span title="C type: uint8_t, Python type: int">uint8</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>fw_version_major - 
+<a name="fw_version_major"></a><big><code>fw_version_major - 
 **<span title="C type: uint8_t, Python type: int">uint8</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>fw_version_minor - 
+<a name="fw_version_minor"></a><big><code>fw_version_minor - 
 **<span title="C type: uint8_t, Python type: int">uint8</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>fw_version_revision - 
+<a name="fw_version_revision"></a><big><code>fw_version_revision - 
 **<span title="C type: uint8_t, Python type: int">uint8</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>fw_version_unreleased - 
+<a name="fw_version_unreleased"></a><big><code>fw_version_unreleased - 
 **<span title="C type: uint8_t, Python type: int">uint8</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 0 for official releases, 1 otherwise</ul>
 
-<big><code>brake_resistor_armed - 
+<a name="brake_resistor_armed"></a><big><code>brake_resistor_armed - 
 **<span title="C type: bool, Python type: bool">bool</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>brake_resistor_saturated - 
+<a name="brake_resistor_saturated"></a><big><code>brake_resistor_saturated - 
 **<span title="C type: bool, Python type: bool">bool</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>system_stats - **[<span >SystemStats</span>](odrive.systemstats.md)**</code></big>
+<a name="system_stats"></a><big><code>system_stats - **[<span >SystemStats</span>](odrive.systemstats.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>config - **[<span >Config</span>](odrive.config.md)**</code></big>
+<a name="config"></a><big><code>config - **[<span >Config</span>](odrive.config.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>user_config_loaded - 
+<a name="user_config_loaded"></a><big><code>user_config_loaded - 
 **<span title="C type: bool, Python type: bool">bool</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readonly property)_</span>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>axis0 - **[<span >Axis</span>](axis.md)**</code></big>
+<a name="axis0"></a><big><code>axis0 - **[<span >Axis</span>](axis.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>axis1 - **[<span >Axis</span>](axis.md)**</code></big>
+<a name="axis1"></a><big><code>axis1 - **[<span >Axis</span>](axis.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>can - **[<span >Can</span>](odrive.can.md)**</code></big>
+<a name="can"></a><big><code>can - **[<span >Can</span>](odrive.can.md)**</code></big>
 
 <ul>
 
 _No description_</ul>
 
-<big><code>test_property - 
+<a name="test_property"></a><big><code>test_property - 
 **<span title="C type: uint32_t, Python type: int">uint32</span>**</code></big>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: small;">_(readwrite property)_</span>
 
 <ul>

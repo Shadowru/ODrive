@@ -237,7 +237,7 @@ def regularize_func(path, name, elem, prepend_args):
                   for n, arg in get_dict(elem, 'out').items()}
     return elem
 
-def regularize_attribute(path, name, elem, c_is_class):
+def regularize_attribute(parent, name, elem, c_is_class):
     if elem is None:
         elem = {}
     if isinstance(elem, str):
@@ -252,7 +252,8 @@ def regularize_attribute(path, name, elem, c_is_class):
         if 'nullflag' in elem: elem['type']['nullflag'] = elem.pop('nullflag')
     
     elem['name'] = name
-    elem['fullname'] = join_name(path, name)
+    elem['fullname'] = join_name(parent['fullname'], name)
+    elem['parent'] = parent
     elem['typeargs'] = elem.get('typeargs', {})
     elem['c_name'] = elem.get('c_name', None) or (elem['name'] + ('_' if c_is_class else ''))
     if ('c_getter' in elem) or ('c_setter' in elem):
@@ -266,11 +267,11 @@ def regularize_attribute(path, name, elem, c_is_class):
         if elem['typeargs']['fibre.Property.mode'] == 'readonly' and 'c_setter' in elem: elem.pop('c_setter')
     elif ('flags' in elem['type']) or ('values' in elem['type']):
         elem['typeargs']['fibre.Property.mode'] = elem['typeargs'].get('fibre.Property.mode', None) or 'readwrite'
-        elem['typeargs']['fibre.Property.type'] = regularize_valuetype(path, to_pascal_case(name), elem['type'])
+        elem['typeargs']['fibre.Property.type'] = regularize_valuetype(parent['fullname'], to_pascal_case(name), elem['type'])
         elem['type'] = 'fibre.Property'
         if elem['typeargs']['fibre.Property.mode'] == 'readonly' and 'c_setter' in elem: elem.pop('c_setter')
     else:
-        elem['type'] = regularize_interface(path, to_pascal_case(name), elem['type'])
+        elem['type'] = regularize_interface(parent['fullname'], to_pascal_case(name), elem['type'])
     return elem
 
 
@@ -291,7 +292,7 @@ def regularize_interface(path, name, elem):
     if not 'c_is_class' in elem:
         raise Exception(elem)
     treat_as_class = elem['c_is_class'] # TODO: add command line arg to make this selectively optional
-    elem['attributes'] = {name: regularize_attribute(path, name, prop, treat_as_class)
+    elem['attributes'] = {name: regularize_attribute(elem, name, prop, treat_as_class)
                           for name, prop in get_dict(elem, 'attributes').items()}
     elem['interfaces'] = []
     elem['enums'] = []
@@ -582,6 +583,46 @@ env = jinja2.Environment(
     variable_start_string='[[', variable_end_string=']]'
 )
 
+def tokenize(text, interface, interface_transform, value_type_transform, attribute_transform):
+    """
+    Looks for referencable tokens (interface names, value type names or
+    attribute names) in a documentation text and runs them through the provided
+    processing functions.
+    Tokens are detected by enclosing back-ticks (`).
+
+    interface: The interface type object that defines the scope in which the
+               tokens should be detected.
+    interface_transform: A function that takes an interface object as an argument
+                         and returns a string.
+    value_type_transform: A function that takes a value type object as an argument
+                          and returns a string.
+    attribute_transform: A function that takes the token strin and an attribute
+                         object as arguments and returns a string.
+    """
+    if text is None or isinstance(text, jinja2.runtime.Undefined):
+        return text
+
+    def token_transform(token):
+        token = token.groups()[0]
+        token_list = split_name(token)
+
+        # Check if this is an attribute reference
+        attr_intf = interface
+        for name in token_list:
+            if not name in attr_intf['attributes']:
+                attr = None
+                break
+            attr = attr_intf['attributes'][name]
+            attr_intf = attr['type']
+        
+        if not attr is None:
+            return attribute_transform(token, attr)
+
+        print(f'Warning: cannot resolve "{token}" in ' + interface['fullname'])
+        return "`" + token + "`"
+
+    return re.sub(r'`([A-Za-z\._]+)`', token_transform, text)
+
 env.filters['to_pascal_case'] = to_pascal_case
 env.filters['to_camel_case'] = to_camel_case
 env.filters['to_macro_case'] = to_macro_case
@@ -590,6 +631,7 @@ env.filters['to_kebab_case'] = to_kebab_case
 env.filters['first'] = lambda x: next(iter(x))
 env.filters['skip_first'] = lambda x: list(x)[1:]
 env.filters['to_c_string'] = lambda x: '\n'.join(('"' + line.replace('"', '\\"') + '"') for line in json.dumps(x, separators=(',', ':')).replace('{"name"', '\n{"name"').split('\n'))
+env.filters['tokenize'] = tokenize
 
 template = env.from_string(template_file.read())
 

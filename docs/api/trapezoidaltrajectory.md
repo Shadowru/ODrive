@@ -2,15 +2,13 @@
 
 
 
-
-
 # TrapezoidalTrajectory
 
 ## Attributes
 
 
 
-<big><code>config - **[<span >Config</span>](trapezoidaltrajectory.config.md)**</code></big>
+<a name="config"></a><big><code>config - **[<span >Config</span>](trapezoidaltrajectory.config.md)**</code></big>
 
 <ul>
 
