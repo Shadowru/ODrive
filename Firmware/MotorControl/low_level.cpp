@@ -688,6 +688,18 @@ void pwm_in_init() {
 #define PWM_MAX_LEGAL_HIGH_TIME    ((TIM_2_5_CLOCK_HZ / 1000000UL) * 2500UL) // ignore high periods longer than 2.5ms
 #define PWM_INVERT_INPUT        false
 
+void set_endpoint(int gpio_num, float value){
+    Endpoint* endpoint = get_endpoint(board_config.pwm_mappings[gpio_num - 1].endpoint);
+    if (!endpoint)
+        return;
+
+    if(fabs(value) < 6.0f){
+         value = 0.0f;
+    }
+
+    endpoint->set_from_float(floor(value));
+}
+
 void handle_pulse(int gpio_num, uint32_t high_time) {
     if (high_time < PWM_MIN_LEGAL_HIGH_TIME || high_time > PWM_MAX_LEGAL_HIGH_TIME)
         return;
@@ -700,11 +712,7 @@ void handle_pulse(int gpio_num, uint32_t high_time) {
     float value = board_config.pwm_mappings[gpio_num - 1].min +
                   (fraction * (board_config.pwm_mappings[gpio_num - 1].max - board_config.pwm_mappings[gpio_num - 1].min));
 
-    Endpoint* endpoint = get_endpoint(board_config.pwm_mappings[gpio_num - 1].endpoint);
-    if (!endpoint)
-        return;
-
-    endpoint->set_from_float(value);
+    set_endpoint(gpio_num, value);
 }
 
 void pwm_in_cb(int channel, uint32_t timestamp) {
