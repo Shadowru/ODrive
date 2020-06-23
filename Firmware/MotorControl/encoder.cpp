@@ -263,12 +263,12 @@ bool Encoder::run_offset_calibration() {
 
 static bool decode_hall(uint8_t hall_state, int32_t* hall_cnt) {
     switch (hall_state) {
-        case 0b001: *hall_cnt = 0; return true;
-        case 0b011: *hall_cnt = 1; return true;
-        case 0b010: *hall_cnt = 2; return true;
-        case 0b110: *hall_cnt = 3; return true;
-        case 0b100: *hall_cnt = 4; return true;
-        case 0b101: *hall_cnt = 5; return true;
+        case 0b110: *hall_cnt = 0; return true;
+        case 0b100: *hall_cnt = 1; return true;
+        case 0b101: *hall_cnt = 2; return true;
+        case 0b001: *hall_cnt = 3; return true;
+        case 0b011: *hall_cnt = 4; return true;
+        case 0b010: *hall_cnt = 5; return true;
         default: return false;
     }
 }
