@@ -694,7 +694,7 @@ void set_endpoint(int gpio_num, float value){
     if (!endpoint)
         return;
 
-    if(fabs(value) < wobbling_period){
+    if(fabs(value) < wobbling_limit){
          value = 0.0f;
     }
 
