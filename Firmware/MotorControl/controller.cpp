@@ -217,6 +217,7 @@ bool Controller::update(float pos_estimate, float vel_estimate, float* current_s
             if(config_.control_mode == CTRL_MODE_VELOCITY_CONTROL && vel_setpoint_ < wobbling_limit) {
                 vel_I_gain = 0.0f;
             }
+
             vel_integrator_current_ += (vel_I_gain * current_meas_period) * v_err;
         }
     }
