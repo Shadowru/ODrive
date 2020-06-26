@@ -36,6 +36,7 @@ const float adc_ref_voltage = 3.3f;
 // Arbitrary non-zero inital value to avoid division by zero if ADC reading is late
 float vbus_voltage = 12.0f;
 bool brake_resistor_armed = false;
+float wobbling_limit = 6.0f;
 /* Private constant data -----------------------------------------------------*/
 static const GPIO_TypeDef* GPIOs_to_samp[] = { GPIOA, GPIOB, GPIOC };
 static const int num_GPIO = sizeof(GPIOs_to_samp) / sizeof(GPIOs_to_samp[0]); 
@@ -693,7 +694,7 @@ void set_endpoint(int gpio_num, float value){
     if (!endpoint)
         return;
 
-    if(fabs(value) < 6.0f){
+    if(fabs(value) < wobbling_period){
          value = 0.0f;
     }
 

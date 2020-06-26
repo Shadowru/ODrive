@@ -211,7 +211,13 @@ bool Controller::update(float pos_estimate, float vel_estimate, float* current_s
         if (limited) {
             // TODO make decayfactor configurable
             vel_integrator_current_ *= 0.99f;
-        } else {
+        } else
+        if(config_.control_mode == CTRL_MODE_VELOCITY_CONTROL){
+            if(vel_setpoint_ < wobbling_limit) {
+                vel_integrator_current_ = 0.0f;
+            }
+        }
+        else {
             vel_integrator_current_ += (config_.vel_integrator_gain * current_meas_period) * v_err;
         }
     }
